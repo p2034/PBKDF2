@@ -2,6 +2,10 @@
 
 NOT TESTED ENOUGH TIMES SINCE I HAVEN'T WRITTEN A HASHING ALGORITHM YET !!!
 
+<h2>Usage:</h2>
+You can see how to use this in /tests/ folder
+
+
 <h2>Source:</h2>
 
 There is two versions:
