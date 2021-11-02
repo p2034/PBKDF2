@@ -14,23 +14,23 @@
 
 
 // get i-th block for pbkdf2
-static uint8_t* pbkdf2_getBlock(uint8_t* (*PRF)(const uint8_t*, uint16_t, const uint8_t*, uint16_t), uint16_t hSize,
-                  const uint8_t* password, uint16_t pSize,
-                  const uint8_t* salt, uint16_t sSize,
-                  uint16_t index, uint16_t itnum);
+static uint8_t* pbkdf2_getBlock(uint8_t* (*PRF)(const uint8_t*, uint64_t, const uint8_t*, uint64_t), uint64_t hSize,
+                  const uint8_t* password, uint64_t pSize,
+                  const uint8_t* salt, uint64_t sSize,
+                  uint64_t index, uint64_t itnum);
 
 
 
 // get number of blocks in key
-static uint16_t pbkdf2_numberOfBlocks(uint16_t kSize, uint16_t hSize, uint16_t& lastBlockSize);
+static uint64_t pbkdf2_numberOfBlocks(uint64_t kSize, uint64_t hSize, uint64_t& lastBlockSize);
 
 
 
 // main function of pbkdf2 implementation
-uint8_t* pbkdf2(uint8_t* (*PRF)(const uint8_t*, uint16_t, const uint8_t*, uint16_t), uint16_t hSize,
-                const uint8_t* password, uint16_t pSize,
-                const uint8_t* salt, uint16_t sSize,
-                uint16_t itnum, uint16_t kSize);
+uint8_t* pbkdf2(uint8_t* (*PRF)(const uint8_t*, uint64_t, const uint8_t*, uint64_t), uint64_t hSize,
+                const uint8_t* password, uint64_t pSize,
+                const uint8_t* salt, uint64_t sSize,
+                uint64_t itnum, uint64_t kSize);
 
 
 

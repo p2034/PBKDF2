@@ -30,19 +30,19 @@
  * 
  * Functions used hash algorithm for getting one of blocks for key in pbkdf2
  */
-static uint8_t* pbkdf2_getBlock(uint8_t* (*PRF)(const uint8_t*, uint16_t, const uint8_t*, uint16_t), uint16_t hSize,
-                  const uint8_t* password, uint16_t pSize,
-                  const uint8_t* salt, uint16_t sSize,
-                  uint16_t index, uint16_t itnum) {
+static uint8_t* pbkdf2_getBlock(uint8_t* (*PRF)(const uint8_t*, uint64_t, const uint8_t*, uint64_t), uint64_t hSize,
+                  const uint8_t* password, uint64_t pSize,
+                  const uint8_t* salt, uint64_t sSize,
+                  uint64_t index, uint64_t itnum) {
   uint8_t* block = new uint8_t[hSize];
   uint8_t* prevHash;
   uint8_t* nextHash;
 
   // get first hash
-  uint16_t siSize = sSize + sizeof(uint16_t);
+  uint64_t siSize = sSize + sizeof(uint64_t);
   uint8_t* si = new uint8_t[siSize];
   std::memcpy(si, salt, sSize);
-  std::memcpy(&(si[sSize]), &index, sizeof(uint16_t));
+  std::memcpy(&(si[sSize]), &index, sizeof(uint64_t));
 
   prevHash = PRF(password, pSize, si, siSize);
   delete[] si;
@@ -75,8 +75,8 @@ static uint8_t* pbkdf2_getBlock(uint8_t* (*PRF)(const uint8_t*, uint16_t, const 
  * 
  * @return number of blocks in pbkdf2 algorithm
  */
-static uint16_t pbkdf2_numberOfBlocks(uint16_t kSize, uint16_t hSize, uint16_t& lastBlockSize) {
-  uint16_t num; ///< number of blocks in key
+static uint64_t pbkdf2_numberOfBlocks(uint64_t kSize, uint64_t hSize, uint64_t& lastBlockSize) {
+  uint64_t num; ///< number of blocks in key
   
   num = kSize / hSize;
   lastBlockSize = kSize % hSize;
@@ -105,10 +105,10 @@ static uint16_t pbkdf2_numberOfBlocks(uint16_t kSize, uint16_t hSize, uint16_t& 
  *
  * @return array[ kSize ]
  */
-uint8_t* pbkdf2(uint8_t* (*PRF)(const uint8_t*, uint16_t, const uint8_t*, uint16_t), uint16_t hSize,
-                const uint8_t* password, uint16_t pSize,
-                const uint8_t* salt, uint16_t sSize,
-                uint16_t itnum, uint16_t kSize) {
+uint8_t* pbkdf2(uint8_t* (*PRF)(const uint8_t*, uint64_t, const uint8_t*, uint64_t), uint64_t hSize,
+                const uint8_t* password, uint64_t pSize,
+                const uint8_t* salt, uint64_t sSize,
+                uint64_t itnum, uint64_t kSize) {
   if (hSize == 0)
     throw std::invalid_argument("Hash size can't be 0");
   if (itnum == 0)
@@ -122,8 +122,8 @@ uint8_t* pbkdf2(uint8_t* (*PRF)(const uint8_t*, uint16_t, const uint8_t*, uint16
 
   uint8_t* key = new uint8_t[kSize];
 
-  uint16_t lastBlockSize;
-  uint16_t numOfBlocks = pbkdf2_numberOfBlocks(kSize, hSize, lastBlockSize);
+  uint64_t lastBlockSize;
+  uint64_t numOfBlocks = pbkdf2_numberOfBlocks(kSize, hSize, lastBlockSize);
 
   // set blocks in key
   for (int i = 0; i < (numOfBlocks - 1); i++) {

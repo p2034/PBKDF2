@@ -13,9 +13,9 @@ project(PBKDF2)
 set(SRCDIR "../src/")
 
 # add your .cpp files here
-add_executable(test.out ../tests/test_oop.cpp ../src/pbkdf2/oop/pbkdf2.cpp)
+add_executable(test.out ../tests/test_oop.cpp ../tests/hmac.cpp ../tests/sha256.cpp ../src/pbkdf2/functional/pbkdf2.cpp)
 
 # add include directory
-target_include_directories(test.out PUBLIC ../src/pbkdf2/oop)
+target_include_directories(test.out PUBLIC ../src/pbkdf2/functional)
 
 target_link_libraries(test.out)

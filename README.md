@@ -1,7 +1,5 @@
 <h1>PBKDF2</h1>
 
-NOT TESTED ENOUGH TIMES SINCE I HAVEN'T WRITTEN A HASHING ALGORITHM YET !!!
-
 PBKDF2 (Password-Based Key Derivation Function 1) is key derivation functions with a sliding computational cost, used to reduce vulnerabilities of brute-force attacks.[wiki](https://en.wikipedia.org/wiki/PBKDF2)
 
 <h2>Usage:</h2>

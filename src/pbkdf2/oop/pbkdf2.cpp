@@ -28,8 +28,8 @@
  * 
  * Functions used hash algorithm for getting one of blocks for key in pbkdf2
  */
-PBKDF2::PBKDF2(uint8_t* (*PRF)(const uint8_t*, uint16_t, const uint8_t*, uint16_t), uint16_t hSize, 
-               uint16_t itnum, uint16_t kSize) {
+PBKDF2::PBKDF2(uint8_t* (*PRF)(const uint8_t*, uint64_t, const uint8_t*, uint64_t), uint64_t hSize, 
+               uint64_t itnum, uint64_t kSize) {
   if (itnum == 0)
     throw std::invalid_argument("Iteration number can't be 0");
   if (kSize == 0)
@@ -67,17 +67,17 @@ PBKDF2::PBKDF2(uint8_t* (*PRF)(const uint8_t*, uint16_t, const uint8_t*, uint16_
  * 
  * Functions used hash algorithm for getting one of blocks for key in pbkdf2
  */
-uint8_t* PBKDF2::getBlock(const uint8_t* password, uint16_t pSize, 
-                          const uint8_t* salt, uint16_t sSize, uint16_t index) {
+uint8_t* PBKDF2::getBlock(const uint8_t* password, uint64_t pSize, 
+                          const uint8_t* salt, uint64_t sSize, uint64_t index) {
   uint8_t* block = new uint8_t[hSize_];
   uint8_t* prevHash;
   uint8_t* nextHash;
 
   // get first hash
-  uint16_t siSize = sSize + sizeof(uint16_t);
+  uint64_t siSize = sSize + sizeof(uint64_t);
   uint8_t* si = new uint8_t[siSize];
   std::memcpy(si, salt, sSize);
-  std::memcpy(&(si[sSize]), &index, sizeof(uint16_t));
+  std::memcpy(&(si[sSize]), &index, sizeof(uint64_t));
 
   prevHash = PRF_(password, pSize, si, siSize);
   delete[] si;
@@ -111,7 +111,7 @@ uint8_t* PBKDF2::getBlock(const uint8_t* password, uint16_t pSize,
  *
  * @return key array[ kSize ]
  */
-uint8_t* PBKDF2::get(const uint8_t* password, uint16_t pSize, const uint8_t* salt, uint16_t sSize) {
+uint8_t* PBKDF2::get(const uint8_t* password, uint64_t pSize, const uint8_t* salt, uint64_t sSize) {
   if (sSize == 0)
     throw std::invalid_argument("Salt size can't be 0");
   if (pSize == 0)

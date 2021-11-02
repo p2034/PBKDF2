@@ -18,25 +18,25 @@
  */
 class PBKDF2 {
 private:
-  uint16_t itnum_; ///< number of iteration 
-  uint16_t kSize_; ///< key size
+  uint64_t itnum_; ///< number of iteration 
+  uint64_t kSize_; ///< key size
 
-  uint16_t hSize_; ///< hash size
-  uint8_t* (*PRF_)(const uint8_t*, uint16_t, const uint8_t*, uint16_t); ///< hash function
+  uint64_t hSize_; ///< hash size
+  uint8_t* (*PRF_)(const uint8_t*, uint64_t, const uint8_t*, uint64_t); ///< hash function
 
-  uint16_t lastBlockSize_; // size of last block
-  uint16_t numberOfBlocks_; ///< number of blocks in key
+  uint64_t lastBlockSize_; // size of last block
+  uint64_t numberOfBlocks_; ///< number of blocks in key
 
   // get index-th block
-  uint8_t* getBlock(const uint8_t* password, uint16_t pSize, const uint8_t* salt, uint16_t sSize, uint16_t index);
+  uint8_t* getBlock(const uint8_t* password, uint64_t pSize, const uint8_t* salt, uint64_t sSize, uint64_t index);
 
 public:
   // init and save hash function, iteration num, key size and hash size
-  PBKDF2(uint8_t* (*PRF)(const uint8_t*, uint16_t, const uint8_t*, uint16_t), uint16_t hSize, 
-         uint16_t itnum, uint16_t kSize);
+  PBKDF2(uint8_t* (*PRF)(const uint8_t*, uint64_t, const uint8_t*, uint64_t), uint64_t hSize, 
+         uint64_t itnum, uint64_t kSize);
 
   // get key by using pbkdf2 with password and salt
-  uint8_t* get(const uint8_t* password, uint16_t pSize, const uint8_t* salt, uint16_t sSize);
+  uint8_t* get(const uint8_t* password, uint64_t pSize, const uint8_t* salt, uint64_t sSize);
 };
 
 
