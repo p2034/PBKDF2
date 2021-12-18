@@ -1,5 +1,7 @@
 <h1>PBKDF2</h1>
 
+DOES NOT WORK !!! (or I do not understand something)
+
 PBKDF2 (Password-Based Key Derivation Function 1) is key derivation functions with a sliding computational cost, used to reduce vulnerabilities of brute-force attacks.[wiki](https://en.wikipedia.org/wiki/PBKDF2)
 
 <h2>Usage:</h2>
