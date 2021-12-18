@@ -3,9 +3,36 @@
 #include <cstdlib>
 #include <ctime>
 
+
+#include <openssl/evp.h>
+#include <openssl/sha.h>
+#include <openssl/crypto.h>
+
+#include <iomanip>
+#include <sstream>
+
+
 #include "hmac.h"
 #include "sha256.h"
 #include "pbkdf2.h"
+
+
+
+std::string PBKDF2_HMAC_SHA_256_string(std::string pass, std::string salt, 
+                                       uint32_t iterations, size_t size) {
+  uint8_t * digest = new uint8_t[size];
+
+  PKCS5_PBKDF2_HMAC(pass.c_str(), pass.length(), 
+                    reinterpret_cast<const uint8_t *>(salt.c_str()), salt.length(),
+                    iterations, EVP_sha256(), size, digest);
+
+  std::stringstream hexRes;
+  hexRes << std::setfill('0') << std::hex;
+	for(int i = 0; i < size; i++)
+		hexRes << std::setw(2) << (unsigned int) digest[i];
+
+  return hexRes.str();
+}
 
 
 
@@ -55,13 +82,15 @@ void test_const_pbkdf2(uint64_t keySize) {
   for (int i = 0; i < keySize; i++)
     std::cout << std::hex << (int)key[i] << " ";
   std::cout << std::endl;
-}
 
+  std::cout << PBKDF2_HMAC_SHA_256_string(strpass, strsalt, 2000, keySize)  << "\n";
+}
 
 
 
 int main() {
   try {
+    //test_rand_pbkdf2(32, 8, 32);
     test_const_pbkdf2(32);
 
   } catch(const std::exception& excpt) {
